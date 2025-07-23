@@ -31,25 +31,25 @@
         ||
         <a href="{{ route('publisher.index')}}">Publisher List</a>
         <hr/>
-        <a href="{{ route('category.create') }}">Add Category</a>
+        <a href="{{ route('publisher.create') }}">Add Publisher</a>
         <table>
             <thead>
                 <tr>
                     <th>
-                        Category Name
+                        Publisher Name
                     </th>
                     <th>ACTIONS</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($category as $c)
+                @forelse ($publisher as $p)
                     <tr>
-                        <td>{{ $c->category_name }}</td>
+                        <td>{{ $p->publisher_name }}</td>
                         <td>
                             <form onsubmit="return confirm('Are you sure?')"
-                                action="{{ route('category.destroy', $c->id) }}" method="POST">
-                                <a href="{{ route('category.show', $c->id) }}">SHOW</a>
-                                <a href="{{ route('category.edit', $c->id) }}">EDIT</a>
+                                action="{{ route('publisher.destroy', $p->id) }}" method="POST">
+                                <a href="{{ route('publisher.show', $p->id) }}">SHOW</a>
+                                <a href="{{ route('publisher.edit', $p->id) }}">EDIT</a>
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit">DELETE</button>

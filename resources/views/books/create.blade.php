@@ -36,16 +36,23 @@
         </div>
         
         <div>
-            <label for="publisher">Publisher</label><br>
-            <input type="text" id="publisher" name="publisher" value="{{ old('publisher') }}" required>
-            @error('publisher') <div style="color:red;">{{ $message }}</div> @enderror
+            <label for="publisher_id">publisher</label><br>
+            <select id="publisher_id" name="publisher_id" required>
+                <option value="" disabled selected>-- Select a publisher --</option>
+                @foreach ($publisher as $publisher)
+                    <option value="{{ $publisher->id }}" {{ old('publisher_id') == $publisher->id ? 'selected' : '' }}>
+                        {{ $publisher->publisher_name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('category_id') <div style="color:red;">{{ $message }}</div> @enderror
         </div>
 
         <div>
             <label for="category_id">Category</label><br>
             <select id="category_id" name="category_id" required>
                 <option value="" disabled selected>-- Select a Category --</option>
-                @foreach ($categories as $category)
+                @foreach ($category as $category)
                     <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
                         {{ $category->category_name }}
                     </option>

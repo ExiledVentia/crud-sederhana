@@ -24,8 +24,8 @@
 </head>
 
 <body>
-    <h2>Books in this category</h2>
-    <a href="{{ route('category.index') }}" class="back-link">Return</a>
+    <h2>Books Published</h2>
+    <a href="{{ route('publisher.index') }}" class="back-link">Return</a>
     <hr>
     @forelse ($books as $book)
         <table>
@@ -34,7 +34,7 @@
                     <th>Book Cover</th>
                     <th>Book Title</th>
                     <th>Author</th>
-                    <th>Publisher</th>
+                    <th>Category</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,7 +45,7 @@
                     </td>
                     <td>{{ $book->title }}</td>
                     <td>{{ $book->author }}</td>
-                    <td>{{ $book->publisher->publisher_name }}</td>
+                    <td>{{ $book->category->category_name }}</td>
                 </tr>
             </tbody>
         </table>
@@ -53,7 +53,7 @@
             {{ $books->links() }}
         </div>
     @empty
-        <p>There are no books in this category yet.</p>
+        <p>Publisher hasn't released a book yet.</p>
     @endforelse
 </body>
 

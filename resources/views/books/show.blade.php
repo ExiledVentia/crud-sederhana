@@ -22,7 +22,7 @@
     <hr />
     <p>{{ $book->author }}</p>
     <hr />
-    <p>{{ $book->publisher }}</p>
+    <p>{{ $book->publisher->publisher_name }}</p>
     <hr />
     <p>{{ $book->category->category_name }}</p>
     <hr />
