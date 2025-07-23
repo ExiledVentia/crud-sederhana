@@ -7,18 +7,33 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Details for {{ $publisher->publisher_name }}</title>
     <style>
-        table {
-            background-color: burlywood;
-            width: 50%; 
-            border-collapse: collapse;
-            border: solid;
+        body {
+            font-family: Arial, sans-serif;
         }
 
-        th, td {
+        table {
+            background-color: burlywood;
+            width: 50%;
+            border-collapse: collapse;
+            border: solid;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
             border: 1px solid;
-            padding: 8px;
+            padding: 10px;
             text-align: center;
-            vertical-align: middle;
+        }
+
+        a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: darkblue;
+        }
+
+        hr {
+            margin: 20px 0;
         }
     </style>
 </head>

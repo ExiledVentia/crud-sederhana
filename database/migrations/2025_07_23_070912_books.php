@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('publisher_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +29,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('books', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
         Schema::dropIfExists('books');
     }
 };

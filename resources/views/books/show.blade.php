@@ -6,6 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Book Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            background-color: burlywood;
+            width: 50%;
+            border-collapse: collapse;
+            border: solid;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid;
+            padding: 10px;
+            text-align: center;
+        }
+
+        a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: darkblue;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+    </style>
 </head>
 
 <body>
