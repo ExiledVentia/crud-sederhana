@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <form action="{{ route('books.update', $books->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('books.update', $book->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -23,7 +23,7 @@
         <br>
         <label>Title</label>
         <input type="text" class="@error('title') is-invalid @enderror" name="title"
-            value="{{ old('title', $books->title) }}" placeholder="Insert a Book Title">
+            value="{{ old('title', $book->title) }}" placeholder="Insert a Book Title">
         @error('title')
             <div>
                 {{ $message }}
@@ -31,7 +31,7 @@
         @enderror
         <br>
         <label>Description</label>
-        <textarea name="description" class="@error('description') is-invalid @enderror" >{{ old('description', $books->description) }}</textarea>
+        <textarea name="description" class="@error('description') is-invalid @enderror" >{{ old('description', $book->description) }}</textarea>
         @error('description')
             <div>
                 {{ $message }}
@@ -40,7 +40,7 @@
         <br>
         <label>Author</label>
         <input type="text" class="@error('author') is-invalid @enderror" name="author"
-            value="{{ old('author', $books->author) }}" placeholder="Insert a Book Author">
+            value="{{ old('author', $book->author) }}" placeholder="Insert a Book Author">
         @error('author')
             <div>
                 {{ $message }}
@@ -49,21 +49,30 @@
         <br>
         <label>Publisher</label>
         <input type="text" class="@error('publisher') is-invalid @enderror" name="publisher"
-            value="{{ old('publisher', $books->publisher) }}" placeholder="Insert a Publisher">
+            value="{{ old('publisher', $book->publisher) }}" placeholder="Insert a Publisher">
         @error('publisher')
             <div>
                 {{ $message }}
             </div>
         @enderror
         <br>
-        <label>Category</label>
-        <input type="text" class="@error('category') is-invalid @enderror" name="category"
-            value="{{ old('category', $books->category) }}" placeholder="Insert a Category">
-        @error('category')
+        
+        {{-- This is the only section that has been changed --}}
+        <label for="category_id">Category</label>
+        <select id="category_id" name="category_id" class="@error('category_id') is-invalid @enderror" required>
+            <option value="">Select a Category</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}" {{ old('category_id', $book->category_id) == $category->id ? 'selected' : '' }}>
+                    {{ $category->category_name }}
+                </option>
+            @endforeach
+        </select>
+        @error('category_id')
             <div>
                 {{ $message }}
             </div>
         @enderror
+        
         <br>
         <button type="submit"> UPDATE </button>
         <button type="reset"> RESET </button>

@@ -24,12 +24,13 @@
 
 <body>
     <div>
-        <a href="{{ route('books.create') }}">Add Book</a>
+        <a href="{{ route('books.index')}}">Book List</a>
         ||
-        <a>Category List</a>
+        <a href="{{ route('category.index')}}">Category List</a>
         ||
         <a>Publisher List</a>
         <hr/>
+        <a href="{{ route('books.create') }}">Add Book</a>
         <table style="">
             <thead>
                 <tr>
@@ -50,7 +51,7 @@
                         <td>{{ $b->title }}</td>
                         <td>{{ $b->author }}</td>
                         <td>{{ $b->publisher }}</td>
-                        <td>{{ $b->category }}</td>
+                        <td>{{ $b->category->category_name }}</td>
                         <td>
                             <form onsubmit="return confirm('Are you sure?')" action="{{ route('books.destroy', $b->id) }}" method="POST">
                                 <a href="{{ route('books.show', $b->id)}}" >SHOW</a>

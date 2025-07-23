@@ -11,24 +11,24 @@
 <body>
     <a href="{{ route('books.index') }}"> Return </a>
     <br><br>
-    <img src="{{ asset('/storage/books/' . $books->cover) }}" style="width: 200px">
-    <h3>{{ $books->title }}</h3>
+    <img src="{{ asset('/storage/books/' . $book->cover) }}" style="width: 200px">
+    <h3>{{ $book->title }}</h3>
     <hr />
     <code>
         <p>
-            {!! $books->description !!}
+            {!! $book->description !!}
         </p>
     </code>
     <hr />
-    <p>{{ $books->author }}</p>
+    <p>{{ $book->author }}</p>
     <hr />
-    <p>{{ $books->publisher }}</p>
+    <p>{{ $book->publisher }}</p>
     <hr />
-    <p>{{ $books->category }}</p>
+    <p>{{ $book->category->category_name }}</p>
     <hr />
-    <form onsubmit="return confirm('Are you sure?')" action="{{ route('books.destroy', $books->id) }}" method="POST">
-        <a href="{{ route('books.show', $books->id) }}">SHOW</a>
-        <a href="{{ route('books.edit', $books->id) }}">EDIT</a>
+    <form onsubmit="return confirm('Are you sure?')" action="{{ route('books.destroy', $book->id) }}" method="POST">
+        <a href="{{ route('books.show', $book->id) }}">SHOW</a>
+        <a href="{{ route('books.edit', $book->id) }}">EDIT</a>
         @csrf
         @method('DELETE')
         <button type="submit">DELETE</button>
