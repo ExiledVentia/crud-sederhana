@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Details</title>
+    <title>Details for {{ $category->category_name }}</title>
     <style>
         table {
             background-color: burlywood;
@@ -24,37 +24,43 @@
 </head>
 
 <body>
-    <h2>Books in this category</h2>
+    <h2>{{ $category->category_name }} Books</h2>
     <a href="{{ route('category.index') }}" class="back-link">Return</a>
     <hr>
-    @forelse ($books as $book)
+
+    @if ($books->isNotEmpty())
         <table>
             <thead>
                 <tr>
                     <th>Book Cover</th>
                     <th>Book Title</th>
                     <th>Author</th>
-                    <th>Publisher</th>
+                    <th>Category</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <img src="{{ asset('storage/books/' . $book->cover) }}" alt="Cover for {{ $book->title }}"
-                            style="width:150px">
-                    </td>
-                    <td>{{ $book->title }}</td>
-                    <td>{{ $book->author }}</td>
-                    <td>{{ $book->publisher->publisher_name }}</td>
-                </tr>
+                @foreach ($books as $book)
+                    <tr>
+                        <td>
+                            <img src="{{ asset('storage/books/' . $book->cover) }}" alt="Cover for {{ $book->title }}"
+                                style="width:150px">
+                        </td>
+                        <td>{{ $book->title }}</td>
+                        <td>{{ $book->author }}</td>
+                        <td>{{ $book->category->category_name }}</td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
+
         <div class="pagination">
             {{ $books->links() }}
         </div>
-    @empty
-        <p>There are no books in this category yet.</p>
-    @endforelse
+
+    @else
+        <p>This publisher hasn't released a book yet.</p>
+    @endif
+
 </body>
 
 </html>
