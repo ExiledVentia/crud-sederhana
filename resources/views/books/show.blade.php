@@ -35,35 +35,41 @@
         hr {
             margin: 20px 0;
         }
+
+        .container {
+            margin: 20px;
+        }
     </style>
 </head>
 
 <body>
-    <a href="{{ route('books.index') }}"> Return </a>
-    <br><br>
-    <img src="{{ asset('/storage/books/' . $book->cover) }}" style="width: 200px">
-    <h3>{{ $book->title }}</h3>
-    <hr />
-    <code>
-        <p>
-            {!! $book->description !!}
-        </p>
-    </code>
-    <hr />
-    <p>{{ $book->author }}</p>
-    <hr />
-    <p>{{ $book->publisher->publisher_name }}</p>
-    <hr />
-    <p>{{ $book->category->category_name }}</p>
-    <hr />
-    <form onsubmit="return confirm('Are you sure?')" action="{{ route('books.destroy', $book->id) }}" method="POST">
-        <a href="{{ route('books.show', $book->id) }}">SHOW</a>
-        <a href="{{ route('books.edit', $book->id) }}">EDIT</a>
-        @csrf
-        @method('DELETE')
-        <button type="submit">DELETE</button>
-    </form>
-
+    <div class="container">
+        <a href="{{ route('books.index') }}"> Return </a>
+        <br><br>
+        <img src="{{ asset('/storage/books/' . $book->cover) }}" style="width: 200px">
+        <h3>{{ $book->title }}</h3>
+        <hr />
+        <code>
+            <p>
+                {!! $book->description !!}
+            </p>
+        </code>
+        <hr />
+        <p>{{ $book->author }}</p>
+        <hr />
+        <p>{{ $book->publisher->publisher_name }}</p>
+        <hr />
+        <p>{{ $book->category->category_name }}</p>
+        <hr />
+        <form onsubmit="return confirm('Are you sure?')" action="{{ route('books.destroy', $book->id) }}"
+            method="POST">
+            <a href="{{ route('books.show', $book->id) }}">SHOW</a>
+            <a href="{{ route('books.edit', $book->id) }}">EDIT</a>
+            @csrf
+            @method('DELETE')
+            <button type="submit">DELETE</button>
+        </form>
+    </div>
 </body>
 
 </html>

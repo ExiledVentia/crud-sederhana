@@ -35,47 +35,51 @@
         hr {
             margin: 20px 0;
         }
+
+        .container {
+            margin: 20px;
+        }
     </style>
 </head>
 
 <body>
-    <h2>Books Published by: {{ $publisher->publisher_name }}</h2>
-    <a href="{{ route('publisher.index') }}" class="back-link">Return</a>
-    <hr>
+    <div class="container">
+        <h2>Books Published by: {{ $publisher->publisher_name }}</h2>
+        <a href="{{ route('publisher.index') }}" class="back-link">Return</a>
+        <hr>
 
-    @if ($books->isNotEmpty())
-        <table>
-            <thead>
-                <tr>
-                    <th>Book Cover</th>
-                    <th>Book Title</th>
-                    <th>Author</th>
-                    <th>Category</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($books as $book)
+        @if ($books->isNotEmpty())
+            <table>
+                <thead>
                     <tr>
-                        <td>
-                            <img src="{{ asset('storage/books/' . $book->cover) }}" alt="Cover for {{ $book->title }}"
-                                style="width:150px">
-                        </td>
-                        <td>{{ $book->title }}</td>
-                        <td>{{ $book->author }}</td>
-                        <td>{{ $book->category->category_name ?? 'N/A' }}</td>
+                        <th>Book Cover</th>
+                        <th>Book Title</th>
+                        <th>Author</th>
+                        <th>Category</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($books as $book)
+                        <tr>
+                            <td>
+                                <img src="{{ asset('storage/books/' . $book->cover) }}"
+                                    alt="Cover for {{ $book->title }}" style="width:150px">
+                            </td>
+                            <td>{{ $book->title }}</td>
+                            <td>{{ $book->author }}</td>
+                            <td>{{ $book->category->category_name ?? 'N/A' }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
-        <div class="pagination">
-            {{ $books->links() }}
-        </div>
-
-    @else
-        <p>This publisher hasn't released a book yet.</p>
-    @endif
-
+            <div>
+                {{ $books->links() }}
+            </div>
+        @else
+            <p>This publisher hasn't released a book yet.</p>
+        @endif
+    </div>
 </body>
 
 </html>
