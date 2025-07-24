@@ -74,7 +74,7 @@ class BookController extends Controller
             'title' => 'required|min:5',
             'description' => 'required|min:10',
             'author' => 'required|min:5',
-            'publisher' => 'required|min:5',
+            'publisher_id' => 'required|exists:publishers,id',
             'category_id' => 'required|exists:categories,id',
         ]);
 
@@ -82,7 +82,7 @@ class BookController extends Controller
             'title' => $validated['title'],
             'description' => $validated['description'],
             'author' => $validated['author'],
-            'publisher' => $validated['publisher'],
+            'publisher_id' => $validated['publisher_id'],
             'category_id' => $validated['category_id'],
         ];
 

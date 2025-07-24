@@ -13,7 +13,7 @@
 
         table {
             background-color: burlywood;
-            width: 50%;
+            width: 80%;
             border-collapse: collapse;
             border: solid;
             margin-top: 20px;

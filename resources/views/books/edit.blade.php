@@ -31,7 +31,7 @@
         @enderror
         <br>
         <label>Description</label>
-        <textarea name="description" class="@error('description') is-invalid @enderror" >{{ old('description', $book->description) }}</textarea>
+        <textarea name="description" class="@error('description') is-invalid @enderror">{{ old('description', $book->description) }}</textarea>
         @error('description')
             <div>
                 {{ $message }}
@@ -47,32 +47,39 @@
             </div>
         @enderror
         <br>
-        <label>Publisher</label>
-        <input type="text" class="@error('publisher') is-invalid @enderror" name="publisher"
-            value="{{ old('publisher', $book->publisher) }}" placeholder="Insert a Publisher">
-        @error('publisher')
-            <div>
+        <label for="publisher_id">Publisher</label>
+        <select id="publisher_id" name="publisher_id" class="@error('publisher_id') is-invalid @enderror" required>
+            <option value="">Select a Publisher</option>
+            @foreach ($publisher as $p)
+                <option value="{{ $p->id }}"
+                    {{ old('publisher_id', $book->publisher_id) == $p->id ? 'selected' : '' }}>
+                    {{ $p->publisher_name }}
+                </option>
+            @endforeach
+        </select>
+        @error('publisher_id')
+            <div class="invalid-feedback">
                 {{ $message }}
             </div>
         @enderror
         <br>
-        
-        {{-- This is the only section that has been changed --}}
+
         <label for="category_id">Category</label>
         <select id="category_id" name="category_id" class="@error('category_id') is-invalid @enderror" required>
             <option value="">Select a Category</option>
-            @foreach ($categories as $category)
-                <option value="{{ $category->id }}" {{ old('category_id', $book->category_id) == $category->id ? 'selected' : '' }}>
-                    {{ $category->category_name }}
+            @foreach ($category as $c)
+                <option value="{{ $c->id }}"
+                    {{ old('category_id', $book->category_id) == $c->id ? 'selected' : '' }}>
+                    {{ $c->category_name }}
                 </option>
             @endforeach
         </select>
         @error('category_id')
-            <div>
+            <div class="invalid-feedback">
                 {{ $message }}
             </div>
         @enderror
-        
+
         <br>
         <button type="submit"> UPDATE </button>
         <button type="reset"> RESET </button>
