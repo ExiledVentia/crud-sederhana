@@ -51,16 +51,34 @@ class PublisherController extends Controller
         $validated = $request->validate([
             'publisher_name' => 'required|string|min:3|unique:publishers,publisher_name,' . $publisher->id,
         ]);
-        
+
         $publisher->update($validated);
-        
         return redirect()->route('publisher.index')->with(['success' => 'Publisher Updated!']);
     }
 
     public function destroy(Publisher $publisher): RedirectResponse
     {
         $publisher->delete();
-
         return redirect()->route('publisher.index')->with(['success' => 'Publisher Successfully Deleted!']);
+    }
+
+    public function trashed(): View
+    {
+        $publisher = Publisher::onlyTrashed()->paginate(10);
+        return view('publisher.trashed', compact('publisher'));
+    }
+
+    public function restore($id): RedirectResponse
+    {
+        $publisher = Publisher::onlyTrashed()->findOrFail($id);
+        $publisher->restore();
+        return redirect()->route('publisher.index')->with(['success' => 'Publisher Restored Successfully!']);
+    }
+
+    public function forceDelete($id): RedirectResponse
+    {
+        $publisher = Publisher::onlyTrashed()->findOrFail($id);
+        $publisher->forceDelete();
+        return redirect()->route('publisher.trashed')->with(['success' => 'Publisher Permanently Deleted!']);
     }
 }

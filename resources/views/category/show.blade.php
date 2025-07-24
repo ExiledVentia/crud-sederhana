@@ -55,7 +55,7 @@
                         <th>Book Cover</th>
                         <th>Book Title</th>
                         <th>Author</th>
-                        <th>Category</th>
+                        <th>Publisher</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,7 +67,7 @@
                             </td>
                             <td>{{ $book->title }}</td>
                             <td>{{ $book->author }}</td>
-                            <td>{{ $book->category->category_name }}</td>
+                            <td>{{ $book->publisher->publisher_name }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -77,7 +77,7 @@
                 {{ $books->links() }}
             </div>
         @else
-            <p>This publisher hasn't released a book yet.</p>
+            <p>There's no books in this category.</p>
         @endif
     </div>
 </body>

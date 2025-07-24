@@ -68,4 +68,24 @@ class CategoryController extends Controller
 
         return redirect()->route('category.index')->with(['success' => 'Category Successfully Deleted!']);
     }
+
+    public function trashed(): View
+    {
+        $category = Category::onlyTrashed()->paginate(10);
+        return view('category.trashed', compact('category'));
+    }
+
+    public function restore($id): RedirectResponse
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->restore();
+        return redirect()->route('category.index')->with(['success' => 'category Restored Successfully!']);
+    }
+
+    public function forceDelete($id): RedirectResponse
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->forceDelete();
+        return redirect()->route('category.trashed')->with(['success' => 'category Permanently Deleted!']);
+    }
 }

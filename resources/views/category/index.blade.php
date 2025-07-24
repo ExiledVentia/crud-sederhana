@@ -51,6 +51,7 @@
         <a href="{{ route('publisher.index')}}">Publisher List</a>
         <hr/>
         <a href="{{ route('category.create') }}">Add Category</a>
+        <a href="{{ route('category.trashed') }}">View Trashed</a>
         <table>
             <thead>
                 <tr>

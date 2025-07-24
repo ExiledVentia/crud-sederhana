@@ -10,9 +10,26 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::prefix('publisher')->name('publisher.')->group(function () {
+    Route::get('/trashed', [PublisherController::class, 'trashed'])->name('trashed');
+    Route::put('/{id}/restore', [PublisherController::class, 'restore'])->name('restore');
+    Route::delete('/{id}/force-delete', [PublisherController::class, 'forceDelete'])->name('forceDelete');
+});
+
+Route::prefix('category')->name('category.')->group(function () {
+    Route::get('/trashed', [CategoryController::class, 'trashed'])->name('trashed');
+    Route::put('/{id}/restore', [CategoryController::class, 'restore'])->name('restore');
+    Route::delete('/{id}/force-delete', [CategoryController::class, 'forceDelete'])->name('forceDelete');
+});
+
+
+// Now, define the general resource routes.
 Route::resource('/books', BookController::class);
 Route::resource('/category', CategoryController::class);
 Route::resource('/publisher', PublisherController::class);
+
+
+// ... The rest of your file remains the same ...
 
 Route::get('/dashboard', function () {
     return view('dashboard');
