@@ -44,6 +44,8 @@
 
 <body>
     <div class="container">
+        <a href="{{route('dashboard')}}">Dashboard</a>
+        ||
         <a href="{{ route('books.index')}}">Book List</a>
         ||
         <a href="{{ route('category.index')}}">Category List</a>

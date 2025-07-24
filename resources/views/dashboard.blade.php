@@ -44,11 +44,10 @@
 
 <body>
     <div class="container">
-        <a href="{{ route('books.index')}}">Book List</a>
-        ||
-        <a href="{{ route('category.index')}}">Category List</a>
-        ||
-        <a href="{{ route('publisher.index')}}">Publisher List</a>
+        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+            @csrf
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
         <hr />
         <table>
             <thead>
