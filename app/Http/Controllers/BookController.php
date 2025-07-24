@@ -87,10 +87,10 @@ class BookController extends Controller
         ];
 
         if ($request->hasFile('cover')) {
-            Storage::delete('public/books/' . $book->cover);
+            Storage::delete('/books' . $book->cover);
 
             $cover = $request->file('cover');
-            $coverPath = $cover->store('public/books');
+            $coverPath = $cover->store('/books');
             $updateData['cover'] = basename($coverPath);
         }
         
