@@ -22,14 +22,13 @@ Route::prefix('category')->name('category.')->group(function () {
     Route::delete('/{id}/force-delete', [CategoryController::class, 'forceDelete'])->name('forceDelete');
 });
 
-
-// Now, define the general resource routes.
 Route::resource('/books', BookController::class);
 Route::resource('/category', CategoryController::class);
-Route::resource('/publisher', PublisherController::class);
+Route::resource('/publisher', PublisherController::class);  
 
-
-// ... The rest of your file remains the same ...
+Route::get('/books', [BookController::class, 'index'])->name('books.index');
+Route::get('/books/export/pdf', [BookController::class, 'exportPDF'])->name('books.export.pdf');
+Route::get('/books/export/excel', [BookController::class, 'exportExcel'])->name('books.export.excel');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BooksExport;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\Publisher;
@@ -9,14 +10,43 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Facades\Excel;
+use Elibyy\TCPDF\Facades\TCPDF;
+use Carbon\Carbon; // Import Carbon
 
 class BookController extends Controller
 {
-
-    public function index(): View
+    public function index(Request $request): View
     {
-        $books = Book::with('category')->latest()->paginate(10);
-        return view('books.index', compact('books'));
+        $query = Book::query()->with('category', 'publisher');
+
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                    ->orWhere('author', 'like', '%' . $request->search . '%')
+                    ->orWhere('description', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('publisher_id')) {
+            $query->where('publisher_id', $request->publisher_id);
+        }
+
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $startDate = Carbon::parse($request->start_date)->startOfDay();
+            $endDate = Carbon::parse($request->end_date)->endOfDay();
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        }
+        $books = $query->latest()->paginate(10);
+
+        $categories = Category::all();
+        $publishers = Publisher::all();
+
+        return view('books.index', compact('books', 'categories', 'publishers'));
     }
 
 
@@ -39,7 +69,7 @@ class BookController extends Controller
         ]);
 
         $cover = $request->file('cover');
-        $cover->storeAs('books', $cover->hashName());
+        $cover->storeAs('public/books', $cover->hashName());
 
         Book::create([
             'cover' => $cover->hashName(),
@@ -87,13 +117,13 @@ class BookController extends Controller
         ];
 
         if ($request->hasFile('cover')) {
-            Storage::delete('/books' . $book->cover);
+            Storage::delete('public/books/' . $book->cover);
 
             $cover = $request->file('cover');
-            $coverPath = $cover->store('/books');
-            $updateData['cover'] = basename($coverPath);
+            $cover->storeAs('public/books', $cover->hashName());
+            $updateData['cover'] = $cover->hashName();
         }
-        
+
         $book->update($updateData);
 
         return redirect()->route('books.index')->with(['success' => 'Data Updated!']);
@@ -104,5 +134,50 @@ class BookController extends Controller
         Storage::delete('public/books/' . $book->cover);
         $book->delete();
         return redirect()->route('books.index')->with(['success' => 'Data Successfully Deleted!']);
+    }
+
+    public function exportPDF(Request $request)
+    {
+        $query = Book::query()->with('category', 'publisher');
+
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                    ->orWhere('author', 'like', '%' . $request->search . '%')
+                    ->orWhere('description', 'like', '%' . $request->search . '%');
+            });
+        }
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+        if ($request->filled('publisher_id')) {
+            $query->where('publisher_id', $request->publisher_id);
+        }
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $startDate = Carbon::parse($request->start_date)->startOfDay();
+            $endDate = Carbon::parse($request->end_date)->endOfDay();
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        }
+        
+        $books = $query->latest()->get();
+
+        $data = [
+            'title' => 'Filtered Book Report',
+            'date' => date('m/d/Y'),
+            'books' => $books
+        ];
+        
+        $html = view('books.books_pdf', $data)->render();
+
+        TCPDF::SetTitle('Book Report');
+        TCPDF::AddPage();
+        TCPDF::writeHTML($html, true, false, true, false, '');
+
+        TCPDF::Output('books_report.pdf', 'D');
+    }
+
+    public function exportExcel(Request $request)
+    {
+        return Excel::download(new BooksExport($request), 'books.xlsx');
     }
 }
