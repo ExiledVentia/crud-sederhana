@@ -8,9 +8,10 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Carbon\Carbon;
 
-class BooksExport implements FromQuery, WithHeadings, WithMapping
+class BooksExport implements FromQuery, WithHeadings, WithMapping, WithColumnWidths
 {
     use Exportable;
 
@@ -71,6 +72,18 @@ class BooksExport implements FromQuery, WithHeadings, WithMapping
             $book->publisher->publisher_name,
             $book->category->category_name,
             Carbon::parse($book->created_at)->toDateTimeString(),
+        ];
+    }
+
+    public function columnWidths(): array
+    {
+        return [
+            'A' => 8,
+            'B' => 45,
+            'C' => 30,
+            'D' => 25,
+            'E' => 25,
+            'F' => 20,
         ];
     }
 }
